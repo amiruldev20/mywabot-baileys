@@ -24,7 +24,8 @@
  - Downloader (Facebook, Instagram, Tiktok, Twitter, Apple, Spotify, Youtube, Sfile, Webdriver, Sticker Tele Downloader)
  - Tools (Ocr, Check Gempa, Google Search, Search Resep Masak, Search Shopee, Search Toko Pedia, Search Pinterest, Upload File, Short URL, Translate, Inspect Web, Remini, Remove bg)
  - Fun Menu (Tebak Gambar, Tebak Bendera, Tebak Lagu, Tebak Surah)
- - E-Topup (Game, Pulsa, Data, Voucher, PLN, Emoney, etc)
+ - E-Topup (Game, Pulsa, Data, Voucher, PLN, Emoney, etc) (full auto)
+ - Pterodactyl (order server, manage server, etc) (full auto payment)
  - E-Shop (Add product, order product, delete product) (full auto)
  - Group (add, kick, close/open gc, accept/reject request member, set pp, set desc, change link, get link, hidetag, total chat)
  - etc

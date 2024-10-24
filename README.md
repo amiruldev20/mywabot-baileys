@@ -1,6 +1,7 @@
 [![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#table-of-contents)
-# MYWABOT (BAILEYS)
+## MywaBot (BAILEYS) - Support Case / Plugins
 > Bot ini dibuat menggunakan library [Baileys Official](https://github.com/WhiskeySockets/Baileys)
+> Bot ini menggunakan session external (mongodb) & database mongodb
 > jika ingin fitur lengkap (include my api) + database multi (mysql, mongoodb, firebase, localdb) & support command via vn silahkan beli premium
 
 # Join Official Group

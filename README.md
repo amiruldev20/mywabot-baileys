@@ -85,3 +85,15 @@ export default (handler) => {
 
 > contoh penggunaan: isOwner: true,
 > unuk opsi dll setelah sock itu adalah (sock, db, util, color, func, scraper)
+
+### Add Handler Function
+```Javascript
+export default function (handler) {
+    handler.addFunction(async (m, { sock, dll }) => {
+
+        if (m.body === "bot") return m.reply(" hello")
+
+    })
+}
+```
+> isi dll sama seperti contoh plugins db, util dll

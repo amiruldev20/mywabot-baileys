@@ -1,11 +1,12 @@
 [![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#table-of-contents)
-## MywaBot (BAILEYS) - Support Case / Plugins
-> Bot ini dibuat menggunakan library [Baileys Official](https://github.com/WhiskeySockets/Baileys)
+## MywaBot (BAILEYS)
+#### Support single / Multi Plugins
+> Bot ini dibuat menggunakan library [Baileys](https://github.com/WhiskeySockets/Baileys)
 > Bot ini menggunakan session external (mongodb) & database mongodb
 > jika ingin fitur lengkap (include my api) + database multi (mysql, mongoodb, firebase, localdb) & support command via vn silahkan beli premium
 
 # Join Official Group
-> masuk ke grup seputar bot [disini](https://chat.whatsapp.com/Gkl0LlOd70J1W1VKALiIJt)
+> masuk ke grup seputar bot [disini](https://chat.whatsapp.com/JbzMsezhCwUKdC6dnjwcIz)
 
 # Premium Script V1.0.1
 🏷 Paket Bulanan: **Rp 35.000,00 / Bulan**
@@ -19,7 +20,7 @@
 - Free Support
 - Free Fix Bug
 
-### Fitur Paket Bulanan
+### Fitur Paket Plan Berbayar
  - Convert Menu (sticker, to audio, to image, to anime, tts, to document, sticker meme, carbon, attp, ttp, read viewonce)
  - Ai Menu (You ai,Bing Ai, Chatgpt Ai, GPT Turbo, GPT 4)
  - Downloader (Facebook, Instagram, Tiktok, Twitter, Apple, Spotify, Youtube, Sfile, Webdriver, Sticker Tele Downloader)

@@ -8,6 +8,19 @@
 # Join Official Group
 > masuk ke grup seputar bot [disini](https://chat.whatsapp.com/JbzMsezhCwUKdC6dnjwcIz)
 
+### Requirements
+
+- [x] NodeJS >= 18 (Recommended v18)
+- [x] FFMPEG & WEBPMUX
+- [x] Server vCPU/RAM 500/1GB (Min)
+
+### Server Support
+
+- [x] NAT VPS [Hostdata](https://hostdata.id/nat-vps-usa/)  (Recommended)
+- [x] Hosting Pterodactyl - [Free Host](https://optiklink.com)
+- [x] RDP Windows
+- [x] Termux
+
 # Premium Script V1.0.1
 🏷 Paket Bulanan: **Rp 35.000,00 / Bulan**
 

@@ -1,0 +1,28 @@
+{
+    "name": "base",
+    "version": "1.0.2",
+    "main": "index.js",
+    "type": "module",
+    "scripts": {
+        "start": "rm -rf package-lock.json && node index.js",
+        "dev": "node system/run.js",
+        "lint": "npx eslint --fix ."
+    },
+    "keywords": [
+        "base whatsapp bot 2025"
+    ],
+    "author": "Amirul Dev",
+    "license": "MIT",
+    "description": "base wabot 2025",
+    "dependencies": {
+        "baileys": "github:amiruldev20/Baileys",
+        "cheerio": "latest",
+        "file-type": "^19.6.0",
+        "session": "github:amiruldev20/baileys-session#mongodb"
+    },
+    "devDependencies": {
+        "@eslint/js": "^9.9.0",
+        "eslint": "^9.13.0",
+        "globals": "^15.11.0"
+    }
+}

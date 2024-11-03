@@ -8,7 +8,7 @@ export default {
     /* database setting */
     db: {
         local: "mywadb.json",
-        mongo: "mongodb+srv://@cluster0.000be.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+        mongo: "urlmongodbkalian"
     }
 
 }

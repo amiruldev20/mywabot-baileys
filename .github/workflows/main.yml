@@ -1,22 +1,20 @@
-name: Run Lint
+name: Lint
 
-on: [pull_request]
+on:
+  push:
+  pull_request:
 
 jobs:
-  check-lint:
+  eslint:
+    name: ESLint
     runs-on: ubuntu-latest
-    timeout-minutes: 10
-
     steps:
     - uses: actions/checkout@v2
-
-    - name: Install Node
-      uses: actions/setup-node@v1
+    - name: Install node v18
+      uses: actions/setup-node@v2
       with:
-        node-version: 20.x
-
-    - name: Install packages
-      run: yarn
-    
-    - name: Check linting
-      run: yarn lint
+        node-version: '18'
+    - name: Install dependencies
+      run: npm install
+    - name: Run ESLint
+      run: ./node_modules/.bin/eslint .

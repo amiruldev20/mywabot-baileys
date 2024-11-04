@@ -15,6 +15,7 @@ export default (handler) => {
             const member = meta.participants.find(u => u.id == jid)
             if (!member) return m.reply('Sudah keluar dari grup')
             sock.groupParticipantsUpdate(m.from, [jid], 'remove')
+            m.react("✅")
         }
     })
 }

@@ -4,7 +4,7 @@ export default (handler) => {
         tags: 'main',
         desc: 'Contact owner bot',
         run: async (m, { sock, db }) => {
-            sock.sendContact(m.from, [db.setting.owner], m)
+            sock.sendContact(m.from, db.setting.owner, m)
         }
     })
 }

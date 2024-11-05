@@ -346,7 +346,7 @@ export async function msg(sock, msg, db) {
     }
 
     m.pushName = msg.pushName
-    m.isOwner = m.sender && db?.setting?.owner.includes(m.sender.replace(/\D+/g, ""))
+    m.isOwner = m.sender && db?.setting?.owner.map(v => v.replace(/[^0-9]/g, '') + "@s.whatsapp.net").includes(m.sender)
     if (m.message) {
         m.type = getContentType(m.message) || Object.keys(m.message)[0]
         m.msg = parseMessage(m.message[m.type]) || m.message[m.type]

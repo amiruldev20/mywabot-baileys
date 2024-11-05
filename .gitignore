@@ -1,0 +1,8 @@
+# folders
+.session
+node_modules
+temp
+temp/*
+
+# files
+mywadb.json

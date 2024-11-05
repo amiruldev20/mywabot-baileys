@@ -14,7 +14,10 @@ import * as baileys from "baileys"
 import session from "session"
 import readline from "readline"
 import path from "path"
+import axios from "axios"
 import util from "util"
+import { pathToFileURL } from "url"
+import { createRequire } from "module"
 
 /* module internal */
 const { Client, msg } = await import(`./system/serialize.js?${Date.now()}`)
@@ -27,8 +30,12 @@ const { default: CommandHandler } = await import(`./system/cmd.js?${Date.now()}`
 const logger = pino({ timestamp: () => `,"time":"${new Date().toJSON()}"` })
 logger.level = 'fatal'
 
-const { state, saveCreds, clearAll } =
-    await session.useMongoAuthState(setting.db.mongo)
+let state, saveCreds, clearAll
+if (setting.typedb === "mongo") {
+    ({ state, saveCreds, clearAll } = await session.useMongoAuthState(setting.db.mongo))
+} else {
+    ({ state, saveCreds } = await baileys.useMultiFileAuthState("./.session"));
+}
 
 const mydb = /json/i.test(setting.typedb)
     ? new dbprov.Local()
@@ -52,68 +59,88 @@ if (!db || Object.keys(db).length === 0) {
 }
 let phone = db?.setting?.number
 const handler = new CommandHandler()
-const loadCommands = async (dir) => {
-    handler.clear()
-    const loadFile = async (filePath) => {
-        try {
-            const fileUrl = `file://${filePath}?${Date.now()}`
-            const module = await import(fileUrl)
-
-            if (typeof module.default === 'function') {
-                await module.default(handler)
-                return true
-            } else {
-                console.log("[DEBUG] Module has no default export:", filePath)
-                return false
-            }
-        } catch (error) {
-            console.error("[ERROR] Failed to load file:", filePath, error)
+const loadFile = async (filePath) => {
+    try {
+        let module
+        const ext = path.extname(filePath)
+        if (ext === '.cjs') {
+            const require = createRequire(import.meta.url)
+            module = require(filePath)
+        } else if (ext === '.js' || ext === '.mjs') {
+            const fileUrl = pathToFileURL(filePath).href + `?${Date.now()}`
+            module = await import(fileUrl)
+        } else {
             return false
         }
-    }
 
-    const processDirectory = async (currentDir) => {
-        try {
-            const items = fs.readdirSync(currentDir)
-
-            for (const item of items) {
-                const fullPath = path.join(currentDir, item)
-                const stat = fs.statSync(fullPath)
-
-                if (stat.isDirectory()) {
-                    await processDirectory(fullPath)
-                } else if (item.endsWith('.js')) {
-                    await loadFile(fullPath)
-                }
-            }
-        } catch (error) {
-            console.error("[ERROR] Error processing directory:", currentDir, error)
+        const commandFunction = module.default || module
+        if (typeof commandFunction === 'function') {
+            await commandFunction(handler)
+            return true
         }
+        return false
+    } catch (error) {
+        console.error("[ERROR] Failed to load file:", filePath, error)
+        return false
     }
+}
+
+const processDirectory = async (currentDir) => {
+    try {
+        const items = fs.readdirSync(currentDir)
+        for (const item of items) {
+            const fullPath = path.join(currentDir, item)
+            const stat = fs.statSync(fullPath)
+
+            if (stat.isDirectory()) {
+                await processDirectory(fullPath)
+            } else if (item.endsWith('.js') || item.endsWith('.cjs') || item.endsWith('.mjs')) {
+                await loadFile(fullPath)
+            }
+        }
+    } catch (error) {
+        console.error("[ERROR] Error processing directory:", currentDir, error)
+    }
+}
+
+const loadCommands = async (dir) => {
+    handler.clear()
     await processDirectory(dir)
 }
+
 const cmdDir = path.join(process.cwd(), 'cmd')
 await loadCommands(cmdDir)
 
+let debounceTimeout
+const debounceDelay = 100
+
 const watchDirectory = (dirPath) => {
-    fs.readdir(dirPath, (err, files) => {
-        if (err) {
-            console.error(`Error reading directory ${dirPath}:`, err)
-            return
-        }
+    fs.watch(dirPath, { recursive: true }, (eventType, filename) => {
+        clearTimeout(debounceTimeout)
 
-        files.forEach((file) => {
-            const filePath = path.join(dirPath, file)
-
-            fs.watchFile(filePath, { interval: 100 }, (curr, prev) => {
-                if (curr.mtime !== prev.mtime) {
-                    console.log(`[+] Detected change on ${file}, reloading commands...`)
-                    loadCommands(dirPath)
-                }
-            })
-        })
+        debounceTimeout = setTimeout(async () => {
+            const filePath = path.join(dirPath, filename)
+            if (eventType === 'rename') {
+                fs.stat(filePath, async (err, stats) => {
+                    if (!err) {
+                        if (stats.isFile()) {
+                            await loadFile(filePath)
+                        } else if (stats.isDirectory()) {
+                            await loadCommands(filePath)
+                        }
+                    } else if (err.code === 'ENOENT') {
+                        console.log(`[INFO] File or directory removed: ${filename}`)
+                    } else {
+                        console.error(`[ERROR] Could not access ${filePath}:`, err)
+                    }
+                })
+            } else if (eventType === 'change') {
+                await loadFile(filePath)
+            }
+        }, debounceDelay)
     })
 }
+
 watchDirectory(cmdDir)
 
 async function connectWA() {
@@ -127,12 +154,12 @@ async function connectWA() {
         })
 
         return new Promise((resolve) => {
-            rl.question('[+] WhatSapp (+62): ', async (number) => {
-                db.setting.number = number
-                db.setting.owner = setting.owner[0]
+            rl.question('[+] WhatsApp: ', async (number) => {
+                db.setting.number = number.replace(/[^0-9]/g, '')
+                db.setting.owner = setting.owner
                 await mydb.write(db)
                 rl.close()
-                resolve(number)
+                resolve(number.replace(/[^0-9]/g, ''))
             })
         })
     }
@@ -188,8 +215,8 @@ async function connectWA() {
         }
         if (connection === 'close') {
             let reason = new Boom(lastDisconnect?.error)?.output.statusCode
-            console.log('reason: ', reason)
-            console.log('dis ', baileys.DisconnectReason)
+            // console.log('reason: ', reason)
+            //console.log('dis ', baileys.DisconnectReason)
 
             switch (reason) {
                 case 408:
@@ -212,7 +239,11 @@ async function connectWA() {
                 case 401:
                     try {
                         console.log(color.cyan('[+] Session Logged Out.. Recreate session...'))
-                        await clearAll()
+                        if (setting.typedb === "mongo") {
+                            await clearAll()
+                        } else {
+                            fs.rmSync('.ses', { recursive: true, force: true })
+                        }
                         console.log(color.green('[+] Session removed!!'))
                         process.send('reset')
                     } catch {
@@ -222,14 +253,22 @@ async function connectWA() {
 
                 case 403:
                     console.log(color.red(`[+] Your WhatsApp Has Been Baned :D`))
-                    await clearAll()
+                    if (setting.typedb === "mongo") {
+                        await clearAll()
+                    } else {
+                        fs.rmSync('.ses', { recursive: true, force: true })
+                    }
                     process.send('reset')
                     break
 
                 case 405:
                     try {
                         console.log(color.cyan('[+] Session Not Logged In.. Recreate session...'))
-                        await clearAll()
+                        if (setting.typedb === "mongo") {
+                            await clearAll()
+                        } else {
+                            fs.rmSync('.ses', { recursive: true, force: true })
+                        }
                         console.log(color.green('[+] Session removed!!'))
                         process.send('reset')
                     } catch {
@@ -242,7 +281,7 @@ async function connectWA() {
         }
         if (connection === "open") {
             const conn = await func.load("@amiruldev/connect.js")
-            conn(color)
+            conn(color, sock, axios)
             if (!fs.existsSync("./temp")) {
                 fs.mkdirSync("./temp")
                 console.log(color.cyan('[+] Folder "temp" successfully created.'))

@@ -26,6 +26,7 @@ import color from "./system/color.js"
 import setting from "./setting.js"
 import sch from "./system/db/schema.js"
 import * as func from "./system/function.js"
+import { create } from "node:domain"
 const { default: CommandHandler } = await import(`./system/cmd.js?${Date.now()}`)
 const logger = pino({ timestamp: () => `,"time":"${new Date().toJSON()}"` })
 logger.level = 'fatal'
@@ -242,7 +243,7 @@ async function connectWA() {
                         if (setting.typedb === "mongo") {
                             await clearAll()
                         } else {
-                            fs.rmSync('.ses', { recursive: true, force: true })
+                            fs.rmSync('.session', { recursive: true, force: true })
                         }
                         console.log(color.green('[+] Session removed!!'))
                         process.send('reset')
@@ -256,7 +257,7 @@ async function connectWA() {
                     if (setting.typedb === "mongo") {
                         await clearAll()
                     } else {
-                        fs.rmSync('.ses', { recursive: true, force: true })
+                        fs.rmSync('.session', { recursive: true, force: true })
                     }
                     process.send('reset')
                     break
@@ -267,7 +268,7 @@ async function connectWA() {
                         if (setting.typedb === "mongo") {
                             await clearAll()
                         } else {
-                            fs.rmSync('.ses', { recursive: true, force: true })
+                            fs.rmSync('.session', { recursive: true, force: true })
                         }
                         console.log(color.green('[+] Session removed!!'))
                         process.send('reset')
@@ -280,7 +281,7 @@ async function connectWA() {
             }
         }
         if (connection === "open") {
-            const conn = await func.load("@amiruldev/connect.js")
+            const conn = await func.loads("amiruldev/conn.js")
             conn(color, sock, axios)
             if (!fs.existsSync("./temp")) {
                 fs.mkdirSync("./temp")

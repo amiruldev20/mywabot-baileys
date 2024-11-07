@@ -1,6 +1,6 @@
 export default function (handler) {
     handler.addFunction(async (m, { sock, db, color, func }) => {
-        const print = await func.load("@amiruldev/print.js")
+        const print = await func.loads("amiruldev/print.js")
         if (!db.groupMetadata) {
             db.groupMetadata = {}
         }

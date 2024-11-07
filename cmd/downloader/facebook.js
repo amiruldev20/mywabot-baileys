@@ -8,7 +8,7 @@ export default (handler) => {
         isLimit: true,
         run: async (m, { sock, func }) => {
             if (!m.text) return m.reply('Silahkan masukan link facebook')
-            const scrape = await func.load("@amiruldev/fb.js")
+            const scrape = await func.loads("amiruldev/fbdl.js")
             const ok = await scrape(cheerio, m.text)
             if (!ok.result.url) return m.reply('Permintaan tidak dapat diproses!!')
             m.react("⏱️")

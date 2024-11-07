@@ -3,6 +3,8 @@
 node_modules
 temp
 temp/*
+.github
 
 # files
 mywadb.json
+up.sh

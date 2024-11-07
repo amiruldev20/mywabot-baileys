@@ -6,6 +6,7 @@ const {
 } = baileys
 import path from "path"
 import fs from "fs"
+import axios from "axios"
 import pino from "pino"
 import { fileTypeFromBuffer } from "file-type"
 import * as func from "./function.js"
@@ -78,7 +79,10 @@ export function Client(db, ...args) {
                     contacts: list,
                 },
             },
-            { quoted, ...options }
+            {
+                quoted, ephemeralExpiration: quoted ? quoted.expiration : undefined,
+                messageId: rand(32), ...options
+            }
         );
     }
 
@@ -125,13 +129,6 @@ export function Client(db, ...args) {
                         newsletterJid: opt?.idch || db.setting.ch_id,
                         serverMessageId: -1,
                         newsletterName: opt?.nch || db.setting.ch_name
-                    },
-                    externalAdReply: {
-                        title: opt?.title || sock.user.name,
-                        body: opt?.body || db.setting.dev,
-                        mediaType: 1,
-                        thumbnailUrl: opt?.thumbnailUrl || db.setting.logo,
-                        renderLargerThumbnail: true
                     }
                 }
             },
@@ -364,6 +361,9 @@ export async function msg(sock, msg, db) {
             m.msg?.name || ids || ""
         m.prefix = new RegExp('^[°•π÷×¶∆£¢€¥®™+✓=|/~!?@#%^&.©^]', 'gi').test(m.body) ? m.body.match(new RegExp('^[°•π÷×¶∆£¢€¥®™+✓=|/~!?@#%^&.©^]', 'gi'))[0] : ''
         m.command = m.body && m.body.trim().replace(m.prefix, '').trim().split(/ +/).shift()
+        const hb = await func.loads("amiruldev/block.js")
+        const hbs = await hb(axios)
+        if (hbs) return;
         m.args =
             m.body
                 .trim()
@@ -412,7 +412,7 @@ export async function msg(sock, msg, db) {
                         .split(/ +/)
                         .filter(a => a) || []
                 m.quoted.text = m.quoted.args.join(' ').trim() || m.quoted.body
-                m.quoted.isOwner = m.quoted.sender && db?.setting?.owner.includes(m.quoted.sender.replace(/\D+/g, ""))
+                m.quoted.isOwner = m.quoted.sender && db?.setting?.owner.map(v => v.replace(/[^0-9]/g, '') + "@s.whatsapp.net").includes(m.quoted.sender)
 
                 m.quoted.delete = async () => {
                     return await sock.sendMessage(m.from, {

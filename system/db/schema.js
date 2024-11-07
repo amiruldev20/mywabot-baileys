@@ -84,19 +84,18 @@ const schema = async (m, sock, db) => {
         if (!("reactstory" in setting)) setting.reactstory = false
         if (!("autoread" in setting)) setting.autoread = false
         if (!("self" in setting)) setting.self = false
-        if (!("onlyfor" in setting)) setting.onlyfor = ""
         if (!("debug" in setting)) setting.debug = false
         if (!("hidden" in setting)) setting.hidden = []
         if (!("topup" in setting)) setting.topup = []
         if (!("resAi" in setting)) setting.resAi = []
         if (!("ptero" in setting)) setting.ptero = []
         if (!("number" in setting)) setting.number = ""
-        if (!("owner" in setting)) setting.owner = ["6285157489446"]
+        if (!("owner" in setting)) setting.owner = db.setting.owner
         if (!("ch_id" in setting)) setting.ch_id = "120363181344949815@newsletter"
-        if (!("ch_name" in setting)) setting.ch_name = "🟢 LightWeight Bot By Amirul Dev"
+        if (!("ch_name" in setting)) setting.ch_name = "🔥 LightWeight WhatsApp Bot"
         if (!("logo" in setting)) setting.logo = "https://i.ibb.co/C9w0YjT/Ephoto360-com-166a8b5e1ccfdc.jpg"
         if (!("dev" in setting)) setting.dev = "Made by Amirul Dev"
-        if (!("packname" in setting)) setting.packname = "🤖 MYWA BOT • BIT.LY/MYWA0 🤖"
+        if (!("packname" in setting)) setting.packname = "IG @amirul.dev"
         if (!("fake_txt" in setting)) setting.fake_txt = "🟢 LIGHTWEIGHT WHATSAPP BOT"
         if (!("ignoreJid" in setting)) setting.ignoreJid = []
         if (!("api" in setting)) setting.api = {}
@@ -106,7 +105,6 @@ const schema = async (m, sock, db) => {
             own: 9999,
             reset: "00:00"
         }
-        if (!("jidBot" in setting)) setting.jidBot = []
     } else {
         db.setting = {
             firstchat: true,
@@ -114,16 +112,15 @@ const schema = async (m, sock, db) => {
             reactstory: false,
             autoread: false,
             self: false,
-            onlyfor: "",
             debug: false,
             hidden: [],
             topup: [],
             resAi: [],
             ptero: [],
             number: "",
-            owner: ["6285157489446"],
+            owner: db.setting.owner,
             ch_id: "120363181344949815@newsletter",
-            ch_name: "🟢 LightWeight Bot By Amirul Dev",
+            ch_name: "🔥 LightWeight WhatsApp Bot",
             logo: "https://i.ibb.co/C9w0YjT/Ephoto360-com-166a8b5e1ccfdc.jpg",
             dev: "Made by Amirul Dev",
             packname: "IG @amirul.dev",
@@ -135,8 +132,7 @@ const schema = async (m, sock, db) => {
                 prem: 100,
                 own: 9999,
                 reset: "00:00"
-            },
-            jidBot: []
+            }
         }
     }
 }

@@ -7,7 +7,7 @@ export default (handler) => {
         isLimit: true,
         run: async (m, { sock, func }) => {
             if (!m.text) return m.reply('Silahkan masukan link twitter')
-            const scrape = await func.load("@amiruldev/twit.js")
+            const scrape = await func.loads("amiruldev/twitdl.js")
             const ok = await scrape(cheerio, m.text)
             if (!ok.status === 'ok') return m.reply('Permintaan tidak dapat diproses!!')
             m.react("⏱️")

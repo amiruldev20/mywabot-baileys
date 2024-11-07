@@ -20,23 +20,25 @@ export default (handler) => {
                 return
             }
 
-            const folders = fs.readdirSync(baseDir).filter(folder => {
-                const folderPath = path.join(baseDir, folder)
-                return fs.existsSync(folderPath) && fs.statSync(folderPath).isDirectory()
-            })
-
-            for (const folder of folders) {
-                const folderPath = path.join(baseDir, folder)
-                const files = fs.readdirSync(folderPath).filter(file => path.extname(file) === '.js')
-
-                for (const file of files) {
-                    const filePath = path.join(folderPath, file)
-                    const commandModule = await import(filePath)
-                    if (commandModule.default) {
-                        commandModule.default(handler)
+            const loadCommands = (dir) => {
+                const items = fs.readdirSync(dir)
+                items.forEach(item => {
+                    const itemPath = path.join(dir, item)
+                    if (fs.statSync(itemPath).isDirectory()) {
+                        loadCommands(itemPath) // Rekursif untuk subfolder
+                    } else if (path.extname(item) === '.js') {
+                        import(itemPath).then(commandModule => {
+                            if (commandModule.default) {
+                                commandModule.default(handler)
+                            }
+                        }).catch(error => {
+                            console.error(`[ERROR] Failed to load command from ${itemPath}:`, error)
+                        })
                     }
-                }
+                })
             }
+
+            loadCommands(baseDir)
 
             for (const [command, details] of cmds) {
                 const tag = details.tags || 'LAINNYA'
@@ -51,7 +53,7 @@ export default (handler) => {
                 }
             }
 
-            const orderedTags = ['main', 'convert', 'downloader', 'group', 'channel', 'owner']
+            const orderedTags = ['main', 'convert', 'downloader', 'group', 'channel', 'owner', 'tools', 'tes']
             let menu = ''
             let counter = 1
 
@@ -67,10 +69,14 @@ export default (handler) => {
                 }
             })
 
+            const hitAll = await fetch("https://amiruldev.serv00.net/hit.txt")
+            const counts = await hitAll.text()
             sock.sendAdL(m.from, `Hi, *@${m.sender.split("@")[0]}* 👋
             
 Selamat datang di MyWA BOT
 bot ini masih dalam tahap beta
+
+*• Hit Pengguna Script*: ${counts}
 
 ${menu.trim()}
 

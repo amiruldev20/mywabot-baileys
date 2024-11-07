@@ -26,7 +26,6 @@ import color from "./system/color.js"
 import setting from "./setting.js"
 import sch from "./system/db/schema.js"
 import * as func from "./system/function.js"
-import { create } from "node:domain"
 const { default: CommandHandler } = await import(`./system/cmd.js?${Date.now()}`)
 const logger = pino({ timestamp: () => `,"time":"${new Date().toJSON()}"` })
 logger.level = 'fatal'

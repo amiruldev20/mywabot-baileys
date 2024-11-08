@@ -8,6 +8,7 @@
 #### ADD PLUGINS? BACA SAMPE BAWAH
 # Join Official Group
 > masuk ke grup seputar bot [disini](https://chat.whatsapp.com/JbzMsezhCwUKdC6dnjwcIz)
+> informasi update [disini](https://whatsapp.com/channel/0029VaF1UTpJ3jv1GsFYi302)
 ### Requirements
 - [x] NodeJS >= 18 (Recommended v18)
 - [x] FFMPEG & WEBPMUX

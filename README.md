@@ -3,6 +3,7 @@
 #### Support single / Multi Plugins
 > Bot ini dibuat menggunakan library [Baileys](https://github.com/WhiskeySockets/Baileys)
 > Bot ini menggunakan session external (mongodb) & database mongodb
+> dan bisa juga menggunakan session internal & database json
 > jika ingin fitur lengkap (include my api) + database multi (mysql, mongoodb, firebase, localdb) & support command via vn silahkan beli premium
 #### ADD PLUGINS? BACA SAMPE BAWAH
 # Join Official Group

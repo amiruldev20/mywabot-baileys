@@ -6,7 +6,7 @@ export default (handler) => {
     tags: 'ai',
     desc: 'Lumin AI',
     isLimit: true,
-    run: async (m, { sock, dll }) => {
+    run: async (m) => {
       // Fungsi untuk mengirim permintaan ke API Lumin AI
       async function fetchUser(content, user) {
         try {

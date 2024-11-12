@@ -6,7 +6,7 @@ export default (handler) => {
     tags: 'ai',
     desc: 'ChatGpt',
     isLimit: true,
-    run: async (m, { sock, dll }) => {
+    run: async (m) => {
       // Fungsi untuk mengirim permintaan ke API Lumin AI dengan model tertentu
       async function fetchWithModel(content, model) {
         try {

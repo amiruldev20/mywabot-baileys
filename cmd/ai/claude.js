@@ -2,9 +2,9 @@ import axios from 'axios';
 
 export default (handler) => {
   handler.reg({
-    cmd: ['gemini', 'geminiai'],
+    cmd: ['claude', 'claudeai'],
     tags: 'ai',
-    desc: 'Gemini Pro',
+    desc: 'Claude-Sonnet-3.5',
     isLimit: true,
     run: async (m, { sock, dll }) => {
       // Fungsi untuk mengirim permintaan ke API Lumin AI dengan model tertentu
@@ -24,7 +24,7 @@ export default (handler) => {
 
       try {
         const budy = m.text; // Teks yang ingin diajukan
-        const model = 'gemini-pro'; // Model default atau Anda dapat membuatnya dinamis berdasarkan kebutuhan
+        const model = 'claude-sonnet-3.5'; // Model default atau Anda dapat membuatnya dinamis berdasarkan kebutuhan
 
         // Memanggil fetchWithModel dengan model yang ditentukan
         const result = await fetchWithModel(budy, model);
@@ -33,7 +33,7 @@ export default (handler) => {
         const output = typeof result === 'object' ? JSON.stringify(result, null, 2) : result;
 
         // Mengirimkan hasil ke pengguna
-        m.reply(`Respons Gemini Pro AI:\n${output}`);
+        m.reply(`Respons Claude AI:\n${output}`);
       } catch (error) {
         console.error("Error:", error.message);
         m.reply("Terjadi kesalahan dalam mendapatkan respons.");

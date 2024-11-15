@@ -6,7 +6,7 @@ export default (handler) => {
         run: async (m, { func }) => {
             try {
                 const ghc = await func.loads("amiruldev/ghcode.js")
-                const json = await ghc(fetch, m.text)
+                const json = await ghc(fetch, m.text) 
                 if (!json.items || json.items.length === 0) {
                     return m.reply("No results found.")
                 }

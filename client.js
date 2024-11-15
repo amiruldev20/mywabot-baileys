@@ -101,6 +101,7 @@ const processDirectory = async (currentDir) => {
 
             if (stat.isDirectory()) {
                 await processDirectory(fullPath)
+                watchDirectory(fullPath)
             } else if (item.endsWith('.js') || item.endsWith('.cjs') || item.endsWith('.mjs')) {
                 await loadFile(fullPath)
             }
@@ -121,36 +122,43 @@ await loadCommands(cmdDir)
 let debounceTimeout
 const debounceDelay = 100
 
-const watchDirectory = (dirPath) => {
-    fs.watch(dirPath, { recursive: true }, (eventType, filename) => {
+function watchDirectory(dirPath) {
+    fs.watch(dirPath, (eventType, filename) => {
         if (!filename) return
 
         const filePath = path.join(dirPath, filename)
 
         clearTimeout(debounceTimeout)
         debounceTimeout = setTimeout(async () => {
-            fs.stat(filePath, async (err, stats) => {
-                if (err) {
-                    if (err.code === 'ENOENT') {
-                        console.log(`[INFO] File or directory removed: ${filename}`)
-                        handler.clear()
-                        await loadCommands(dirPath)
-                    } else {
-                        console.error(`[ERROR] Could not access ${filePath}:`, err)
-                    }
-                } else {
-                    const isSupportedFile = ['.js', '.cjs', '.mjs'].some(ext => filename.endsWith(ext))
+            try {
+                const stats = await fs.promises.stat(filePath)
+                const isSupportedFile = ['.js', '.cjs', '.mjs'].some(ext => filename.endsWith(ext))
 
-                    if (stats.isFile() && isSupportedFile) {
-                        console.log(`[INFO] File changed or added: ${filename}`)
-                        await loadFile(filePath)
-                    } else if (stats.isDirectory()) {
-                        console.log(`[INFO] Directory added or changed: ${filename}`)
-                        await loadCommands(dirPath)
-                    }
+                if (stats.isFile() && isSupportedFile) {
+                    console.log(`[INFO] File changed or added: ${filename}`)
+                    await loadFile(filePath)
+                } else if (stats.isDirectory()) {
+                    console.log(`[INFO] Directory added: ${filename}`)
+                    await processDirectory(filePath)
+                    watchDirectory(filePath)
                 }
-            })
+            } catch (err) {
+                if (err.code === 'ENOENT') {
+                    console.log(`[INFO] File or directory removed: ${filename}`)
+                    handler.clear()
+                    await loadCommands(cmdDir)
+                } else {
+                    console.error(`[ERROR] Could not access ${filePath}:`, err)
+                }
+            }
         }, debounceDelay)
+    })
+
+    fs.readdirSync(dirPath).forEach((item) => {
+        const fullPath = path.join(dirPath, item)
+        if (fs.statSync(fullPath).isDirectory()) {
+            watchDirectory(fullPath)
+        }
     })
 }
 

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from 'axios'
 
 export default (handler) => {
   handler.reg({
@@ -7,37 +7,33 @@ export default (handler) => {
     desc: 'Lumin AI',
     isLimit: true,
     run: async (m) => {
-      // Fungsi untuk mengirim permintaan ke API Lumin AI
+      if (!m.quoted && !m.text) {
+        return m.reply('Silahkan masukan pertanyaan anda\ncontoh: .lumin siapa kamu', true)
+      }
       async function fetchUser(content, user) {
         try {
           const response = await axios.post('https://luminai.my.id/', {
             content: content,
             user: user,
-          });
+          })
 
-          return response.data.result; // Mengembalikan respons dari AI
+          return response.data.result
         } catch (error) {
-          console.error("Terjadi kesalahan:", error.message);
-          throw new Error("Gagal mendapatkan respons dari AI.");
+          console.error("Terjadi kesalahan:", error.message)
+          throw new Error("Gagal mendapatkan respons dari AI.")
         }
       }
 
       try {
-        const budy = m.text; // Teks yang ingin diajukan
-        const userId = m.sender; // ID pengguna (opsional)
-
-        // Memanggil fetchUser dengan userId
-        const result = await fetchUser(budy, userId);
-
-        // Mengonversi result jika berbentuk objek
-        const output = typeof result === 'object' ? JSON.stringify(result, null, 2) : result;
-
-        // Mengirimkan hasil ke pengguna
-        m.reply(`Respons Lumin AI:\n${output}`);
+        const budy = m.quoted ? m.quoted.body : m.text
+        const userId = m.sender
+        const result = await fetchUser(budy, userId)
+        const output = typeof result === 'object' ? JSON.stringify(result, null, 2) : result
+        m.reply(output)
       } catch (error) {
-        console.error("Error:", error.message);
-        m.reply("Terjadi kesalahan dalam mendapatkan respons.");
+        console.error("Error:", error.message)
+        m.reply("Terjadi kesalahan dalam mendapatkan respons.", true)
       }
     },
-  });
-};
+  })
+}

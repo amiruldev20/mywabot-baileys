@@ -1,33 +1,38 @@
 [![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#table-of-contents)
-## MywaBot (BAILEYS)
-#### Support single / Multi Plugins
-> Bot ini dibuat menggunakan library [Baileys](https://github.com/WhiskeySockets/Baileys)
-> Bot ini menggunakan session external (mongodb) & database mongodb
-> dan bisa juga menggunakan session internal & database json
-> jika ingin fitur lengkap (include my api) + database multi (mysql, mongoodb, firebase, localdb) & support command via vn silahkan beli premium
-#### ADD PLUGINS? BACA SAMPE BAWAH
-# Join Official Group
-> masuk ke grup seputar bot [disini](https://chat.whatsapp.com/JbzMsezhCwUKdC6dnjwcIz)
-> informasi update [disini](https://whatsapp.com/channel/0029VaF1UTpJ3jv1GsFYi302)
+### MywaBot (WhatsApp Bot Baileys 2024-2025)
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#table-of-contents)
+- [x] Support Single & Multi Handler
+- [x] Support CommonJs & ESM
+- [x] Stable On Ram 350MB
+- [x] Support Termux, VPS, RDP (Windows)
+- [x] Support Panel Pterodactyl
+- [x] Support cPanel, Plesk
+- [x] Support Session Internal (Json) & External (MongoDB)
+- [ ] Support Case (Soon)
+- [ ] Support Multi Type Plugins (Soon)
+- [ ] Support Running Code Python (Soon)
+- [ ] Support Running Code Shell Script - Bash (Soon)
+
+#### [ID] ADD PLUGINS CMD? SCROLL KE BAWAH
+#### [EN] ADD PLUGINS CMD? SCROLL BELOW
+
+### Official Channel & Group
+> Link Group [Click Here](https://chat.whatsapp.com/JbzMsezhCwUKdC6dnjwcIz)
+> 
+> Info Update [Follow Channel](https://whatsapp.com/channel/0029VaF1UTpJ3jv1GsFYi302)
 ### Requirements
 - [x] NodeJS >= 18 (Recommended v18)
 - [x] FFMPEG & WEBPMUX
-- [x] Server vCPU/RAM 500/1GB (Min)
-### Server Support
-- [x] NAT VPS [Hostdata](https://hostdata.id/nat-vps-usa/)  (Recommended)
-- [x] Hosting Pterodactyl - [Free Host](https://optiklink.com)
-- [x] RDP Windows
-- [x] Termux
-# Premium Script V1.0.1
-🏷 Paket Bulanan: **Rp 35.000,00 / Bulan**
-🏷 Paket Lifetime: **Rp 180.000,00 / Lifetime**
-### Spesifikasi Paket Bulanan
-- Multi Database (mysql,localdb,mongoodb,firebase)
-- Support Command With VN
-- Free Update (Selagi Mentaati Rules)
-- Free Support
-- Free Fix Bug
-### Fitur Paket Plan Berbayar
+- [x] Server vCPU/RAM Min 350/500 MB
+- [x] FFMPEG & IMAGEMAGICK
+
+<details>
+ <summary>🔥 Premium Source Code (Soon)</summary>
+ 
+### Premium Script V 1.0.1
+🏷 Price: **Rp 50.000,00 / Month** + Server Pterodactyl
+ 
+### Features
  - Convert Menu (sticker, to audio, to image, to anime, tts, to document, sticker meme, carbon, attp, ttp, read viewonce)
  - Ai Menu (You ai,Bing Ai, Chatgpt Ai, GPT Turbo, GPT 4)
  - Downloader (Facebook, Instagram, Tiktok, Twitter, Apple, Spotify, Youtube, Sfile, Webdriver, Sticker Tele Downloader)
@@ -38,6 +43,8 @@
  - E-Shop (Add product, order product, delete product) (full auto)
  - Group (add, kick, close/open gc, accept/reject request member, set pp, set desc, change link, get link, hidetag, total chat)
  - etc
+</details>
+
 ### Add Plugins Command Support Multi
 ```Javascript
 export default (handler) => {

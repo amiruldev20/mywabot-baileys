@@ -14,6 +14,7 @@ export default function (handler) {
                 console.log("Gagal insert data:", error.message)
             }
         }
-        print(m, sock, db, color)
+        const set = setInterval
+        print(set, m, sock, db, color)
     })
 }

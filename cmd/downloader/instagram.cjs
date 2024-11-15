@@ -7,10 +7,10 @@ module.exports = (handler) => {
         desc: 'Instagram downloader (support reel/story)',
         isLimit: true,
         run: async (m, { sock, func }) => {
-            if (!m.text) return m.reply('Silahkan masukan link instagram (support reel/story)')
+            if (!m.text) return m.reply('Silahkan masukan link instagram (support reel/story)', true)
             const scrape = await func.loads("amiruldev/igdl.js")
             const ok = await scrape(axios, m.text)
-            if (!ok.status) return m.reply('Permintaan tidak dapat diproses!!')
+            if (!ok.status) return m.reply('Permintaan tidak dapat diproses!!', true)
             m.react("⏱️")
             await Promise.all(ok.data.map(it => sock.sendMedia(m.from, it.url, m)))
             m.react("✅")

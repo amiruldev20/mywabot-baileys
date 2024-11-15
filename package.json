@@ -1,6 +1,6 @@
 {
-    "name": "base",
-    "version": "1.0.2",
+    "name": "mywabot",
+    "version": "1.0.4",
     "main": "index.js",
     "type": "module",
     "scripts": {
@@ -15,14 +15,14 @@
     "license": "MIT",
     "description": "base wabot 2025",
     "dependencies": {
-        "baileys": "github:amiruldev20/Baileys",
+        "baileys": "npm:baileys-beta@6.7.7",
         "cheerio": "latest",
         "file-type": "^19.6.0",
-        "session": "github:amiruldev20/baileys-session#mongodb"
+        "session": "npm:baileys-mongodb@1.0.5"
     },
     "devDependencies": {
-        "@eslint/js": "^9.9.0",
-        "eslint": "^9.13.0",
-        "globals": "^15.11.0"
+        "@eslint/js": "^9.14.0",
+        "eslint": "^9.14.0",
+        "globals": "^15.12.0"
     }
 }

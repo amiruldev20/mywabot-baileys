@@ -85,10 +85,7 @@ const schema = async (m, sock, db) => {
         if (!("autoread" in setting)) setting.autoread = false
         if (!("self" in setting)) setting.self = false
         if (!("debug" in setting)) setting.debug = false
-        if (!("hidden" in setting)) setting.hidden = []
-        if (!("topup" in setting)) setting.topup = []
         if (!("resAi" in setting)) setting.resAi = []
-        if (!("ptero" in setting)) setting.ptero = []
         if (!("number" in setting)) setting.number = ""
         if (!("owner" in setting)) setting.owner = db.setting.owner
         if (!("ch_id" in setting)) setting.ch_id = "120363181344949815@newsletter"
@@ -96,8 +93,8 @@ const schema = async (m, sock, db) => {
         if (!("logo" in setting)) setting.logo = "https://i.ibb.co/C9w0YjT/Ephoto360-com-166a8b5e1ccfdc.jpg"
         if (!("dev" in setting)) setting.dev = "Made by Amirul Dev"
         if (!("packname" in setting)) setting.packname = "IG @amirul.dev"
-        if (!("fake_txt" in setting)) setting.fake_txt = "🟢 LIGHTWEIGHT WHATSAPP BOT"
         if (!("ignoreJid" in setting)) setting.ignoreJid = []
+        if (!("lang" in setting)) setting.lang = "id"
         if (!("api" in setting)) setting.api = {}
         if (!("limit" in setting)) setting.limit = {
             free: 10,
@@ -113,10 +110,7 @@ const schema = async (m, sock, db) => {
             autoread: false,
             self: false,
             debug: false,
-            hidden: [],
-            topup: [],
             resAi: [],
-            ptero: [],
             number: "",
             owner: db.setting.owner,
             ch_id: "120363181344949815@newsletter",
@@ -124,8 +118,8 @@ const schema = async (m, sock, db) => {
             logo: "https://i.ibb.co/C9w0YjT/Ephoto360-com-166a8b5e1ccfdc.jpg",
             dev: "Made by Amirul Dev",
             packname: "IG @amirul.dev",
-            fake_txt: "🟢 LIGHTWEIGHT WHATSAPP BOT",
             ignoreJid: [],
+            lang: "id",
             api: {},
             limit: {
                 free: 10,

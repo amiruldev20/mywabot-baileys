@@ -10,7 +10,7 @@ export default (handler) => {
         cmd: ['menu', 'list', 'help', 'start'],
         tags: 'main',
         desc: 'Show all commands',
-        run: async (m, { sock, cmds }) => {
+        run: async (m, { sock, cmds, db, func }) => {
             const commandGroups = {}
             const baseDir = path.join(__dirname)
 
@@ -46,14 +46,14 @@ export default (handler) => {
                     commandGroups[tag] = []
                 }
 
-                const commandText = `${command}${details.isLimit ? ' 𖣨' : ''}\n> ${details.desc}`
+                const commandText = `${command}${details.isLimit ? ' ♤' : ''}\n> ${details.desc}`
 
                 if (!commandGroups[tag].some(cmd => cmd.includes(`\n> ${details.desc}`))) {
                     commandGroups[tag].push(commandText)
                 }
             }
 
-            const orderedTags = ['main', 'convert', 'ai', 'downloader', 'group', 'channel', 'owner', 'tools']
+            const orderedTags = ['main', 'convert', 'ai', 'downloader', 'group', 'channel', 'owner', 'tools', 'anime']
             let menu = ''
             let counter = 1
 
@@ -71,16 +71,21 @@ export default (handler) => {
 
             const hitAll = await fetch("https://amiruldev.serv00.net/hit.txt")
             const counts = await hitAll.text()
+            const clang = await func.loads("amiruldev/tr.js")
+            const gtr = await clang(fetch, `Selamat datang di MyWA BOT
+        
+Bot ini masih dalam tahap beta
+`, db.setting.lang)
             sock.sendAdL(m.from, `Hi, *@${m.sender.split("@")[0]}* 👋
             
-Selamat datang di MyWA BOT
-bot ini masih dalam tahap beta
+${gtr}
 
-*• Hit Pengguna Script*: ${counts}
+*• Hit Pengguna Script*: ${func.formatNumber(counts)}
+*♤ : Command Memakai Limit*
 
 ${menu.trim()}
 
-> 2024 © Amirul Dev`, m)
+> Source: https://github.com/amiruldev20/mywabot-baileys`, m)
         }
     })
 }

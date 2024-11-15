@@ -9,23 +9,23 @@ export default (handler) => {
 
             switch (m.text) {
                 case '1':
-                    m.reply('_First chat berhasil dinonaktifkan!!_')
+                    m.reply('_First chat berhasil dinonaktifkan!!_', true)
                     set.firstchat = false
                     break
                 case '2':
-                    m.reply('_Read story berhasil dinonaktifkan!!_')
+                    m.reply('_Read story berhasil dinonaktifkan!!_', true)
                     set.readstory = false
                     break
                 case '3':
-                    m.reply('_Reaction story berhasil dinonaktifkan!!_')
+                    m.reply('_Reaction story berhasil dinonaktifkan!!_', true)
                     set.reactstory = false
                     break
                 case '4':
-                    m.reply('_Auto read chat berhasil dinonaktifkan!!_')
+                    m.reply('_Auto read chat berhasil dinonaktifkan!!_', true)
                     set.autoread = false
                     break
                 case '5':
-                    m.reply('_Self mode berhasil dinonaktifkan!!_')
+                    m.reply('_Self mode berhasil dinonaktifkan!!_', true)
                     set.self = false
                     break
                 default:
@@ -38,7 +38,7 @@ export default (handler) => {
 4. Auto read chat
 5. Self mode
 
-example: .on 1`)
+example: .on 1`, true)
 
             }
         }

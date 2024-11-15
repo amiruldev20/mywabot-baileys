@@ -87,7 +87,7 @@ export function Client(db, ...args) {
     }
 
     /* adreply */
-    sock.sendAd = (jid, capt, quoted, opt = {}) => {
+    sock.sendAd = async (jid, capt, quoted, opt = {}) => {
         return sock.sendMessage(
             jid,
             {
@@ -117,7 +117,7 @@ export function Client(db, ...args) {
     }
 
     /* adreply large */
-    sock.sendAdL = (jid, capt, quoted, opt = {}) => {
+    sock.sendAdL = async (jid, capt, quoted, opt = {}) => {
         return sock.sendMessage(
             jid,
             {
@@ -445,30 +445,18 @@ export async function msg(sock, msg, db) {
         }
     }
 
-    m.reply = async (text, options = {}) => {
-        if (typeof text === "string") {
-            return await sock.sendMessage(
-                m.from,
-                { text, ...options },
-                {
-                    quoted: m,
-                    ephemeralExpiration: m.expiration,
-                    messageId: rand(32),
-                    ...options
-                }
-            )
-        } else if (typeof text === "object" && typeof text !== "string") {
-            return sock.sendMessage(
-                m.from,
-                { ...text, ...options },
-                {
-                    quoted: m,
-                    ephemeralExpiration: m.expiration,
-                    messageId: rand(32),
-                    ...options
-                }
-            )
-        }
+    m.reply = async (text, trs, options = {}) => {
+        const ms = typeof text === "string" && trs ? await func.tr(text, db.setting.lang) : text
+        return await sock.sendMessage(
+            m.from,
+            typeof text === "string" ? { text: ms, ...options } : { ...text, ...options },
+            {
+                quoted: m,
+                ephemeralExpiration: m.expiration,
+                messageId: rand(32),
+                ...options
+            }
+        )
     }
 
     m.delete = async () => {

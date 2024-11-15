@@ -18,6 +18,7 @@ import axios from "axios"
 import util from "util"
 import { pathToFileURL } from "url"
 import { createRequire } from "module"
+const require = createRequire(import.meta.url)
 
 /* module internal */
 const { Client, msg } = await import(`./system/serialize.js?${Date.now()}`)
@@ -59,8 +60,14 @@ if (!db || Object.keys(db).length === 0) {
 }
 let phone = db?.setting?.number
 const handler = new CommandHandler()
+
 const loadFile = async (filePath) => {
     try {
+        const resolvedPath = path.resolve(filePath)
+        if (require.cache[resolvedPath]) {
+            delete require.cache[resolvedPath]
+        }
+
         let module
         const ext = path.extname(filePath)
         if (ext === '.cjs') {
@@ -116,33 +123,38 @@ const debounceDelay = 100
 
 const watchDirectory = (dirPath) => {
     fs.watch(dirPath, { recursive: true }, (eventType, filename) => {
-        clearTimeout(debounceTimeout)
+        if (!filename) return
 
+        const filePath = path.join(dirPath, filename)
+
+        clearTimeout(debounceTimeout)
         debounceTimeout = setTimeout(async () => {
-            const filePath = path.join(dirPath, filename)
-            if (eventType === 'rename') {
-                fs.stat(filePath, async (err, stats) => {
-                    if (!err) {
-                        if (stats.isFile()) {
-                            await loadFile(filePath)
-                        } else if (stats.isDirectory()) {
-                            await loadCommands(filePath)
-                        }
-                    } else if (err.code === 'ENOENT') {
+            fs.stat(filePath, async (err, stats) => {
+                if (err) {
+                    if (err.code === 'ENOENT') {
                         console.log(`[INFO] File or directory removed: ${filename}`)
+                        handler.clear()
+                        await loadCommands(dirPath)
                     } else {
                         console.error(`[ERROR] Could not access ${filePath}:`, err)
                     }
-                })
-            } else if (eventType === 'change') {
-                await loadFile(filePath)
-            }
+                } else {
+                    const isSupportedFile = ['.js', '.cjs', '.mjs'].some(ext => filename.endsWith(ext))
+
+                    if (stats.isFile() && isSupportedFile) {
+                        console.log(`[INFO] File changed or added: ${filename}`)
+                        await loadFile(filePath)
+                    } else if (stats.isDirectory()) {
+                        console.log(`[INFO] Directory added or changed: ${filename}`)
+                        await loadCommands(dirPath)
+                    }
+                }
+            })
         }, debounceDelay)
     })
 }
 
 watchDirectory(cmdDir)
-
 async function connectWA() {
     process.on("uncaughtException", error => {
         console.error("Uncaught Exception:", error.message)

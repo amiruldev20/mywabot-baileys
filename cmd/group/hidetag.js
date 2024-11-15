@@ -3,6 +3,7 @@ export default (handler) => {
         cmd: ['hidetag', 'h'],
         tags: 'group',
         desc: 'Hide tag in group',
+        isGroup: true,
         isAdmin: true,
         isBotAdmin: false,
         run: async (m, { sock }) => {

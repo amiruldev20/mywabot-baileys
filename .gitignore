@@ -7,4 +7,7 @@ temp/*
 # files
 mywadb.json
 up.sh
+load.sh
+enc.sh
+setting.js
 pnpm-lock.yaml

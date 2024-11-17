@@ -1,0 +1,19 @@
+export default (handler) => {
+    handler.reg({
+        cmd: ['ban', 'banned'],
+        tags: 'owner',
+        desc: 'Ban multiple users',
+        isOwner: true,
+        run: async (m, { db, sock, dll }) => {
+            const input = m.text ? m.text : m.quoted ? m.quoted.sender : m.mentions.length > 0 ? m.mentions[0] : false
+            if (!input) return m.reply('Silahkan tag / reply target', true)
+            const p = await sock.onWhatsApp(input.trim())
+            if (p.length == 0) return m.reply('⚠️ Nomor tidak terdaftar di WhatsApp', true)
+            const jid = sock.decodeJid(p[0].jid)
+            const set = db.users[jid]
+            set.banned = true
+            m.reply(`✅ Pengguna ${input} telah di-banned.`, true)
+            },
+        },
+    )
+}

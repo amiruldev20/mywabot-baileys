@@ -4,7 +4,7 @@ export default (handler) => {
         tags: 'owner',
         desc: 'List all banned users',
         isOwner: true,
-        run: async (m, { db, dll }) => {
+        run: async (m, { db }) => {
             try {
                 const bannedUsers = Object.entries(db.users || {})
                     .filter(([_, data]) => data.banned)

@@ -6,7 +6,7 @@ export default (handler) => {
         isOwner: true,
         run: async (m, { sock }) => {
             if (!m.text) {
-                return m.reply('Silahkan berikan bio bot anda\ncontoh: .setbiobot Shiroko', true)
+                return m.reply('Silahkan berikan bio bot anda\ncontoh: .setbiobot MyWaBot', true)
             }
             sock.updateProfileStatus(m.text)
             m.reply(`bio bot berhasil berganti menjadi, ${m.text}`)

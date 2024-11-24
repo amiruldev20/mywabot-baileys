@@ -1,5 +1,5 @@
 import axios from 'axios'
-
+// pr from @Abuzzpoet
 export default (handler) => {
   handler.reg({
     cmd: ['chatgpt', 'openai'],
@@ -19,8 +19,7 @@ export default (handler) => {
 
           return response.data.result
         } catch (error) {
-          console.error("Terjadi kesalahan:", error.message)
-          throw new Error("Gagal mendapatkan respons dari AI.")
+          return error
         }
       }
 
@@ -30,9 +29,8 @@ export default (handler) => {
         const result = await fetchWithModel(budy, model)
 
         const output = typeof result === 'object' ? JSON.stringify(result, null, 2) : result
-        m.reply(output)
-      } catch (error) {
-        console.error("Error:", error.message)
+        m.reply(output, true)
+      } catch {
         m.reply("Terjadi kesalahan dalam mendapatkan respons.", true)
       }
     },

@@ -1,4 +1,17 @@
 /* eslint-disable */
+
+/*
+terimakasih telah menggunakan source code saya. apabila ada masalah, silahkan hubungi saya
+•
+Thank you for using my source code. If there is a problem, please contact me
+
+- Facebook: fb.com/amiruldev.ci
+- Instagram: instagram.com/amirul.dev
+- Telegram: t.me/amiruldev20
+- Github: @amiruldev20
+- WhatsApp: 085157489446
+*/
+
 /* module external */
 import axios from "axios"
 import fs from "fs"
@@ -524,7 +537,7 @@ async function downloadFromUrl(url) {
         refer = 'https://www.y2mate.com/en948'
     } else if (url.includes('apkmirror')) {
         refer = 'https://www.apkmirror.com'
-    } 
+    }
     const headers = {
         'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36',
         'sec-fetch-site': 'same-origin',
@@ -619,4 +632,111 @@ export async function tr(q, lang) {
     const res = await loads('amiruldev/tr.js')
     const ok = await res(fetch, q, lang)
     return ok
+}
+
+/* image to webp */
+async function imageToWebp(fileBuffer) {
+    try {
+        const formData = new FormData();
+        formData.append("File", fileBuffer, {
+            filename: "file.ai",
+            contentType: "application/postscript",
+        });
+        formData.append("StoreFile", "true");
+
+        const response = await axios.post(
+            "https://v2.convertapi.com/convert/ai/to/webp",
+            formData,
+            {
+                headers: {
+                    Authorization: `Bearer secret_uxb1s4AjYo0eDZre`,
+                    ...formData.getHeaders(),
+                },
+                responseType: "arraybuffer", // Mendapatkan hasil dalam bentuk buffer
+            }
+        );
+
+        if (response.status === 200) {
+            return Buffer.from(response.data); // Mengembalikan buffer hasil
+        } else {
+            throw new Error(`ConvertAPI failed: ${response.statusText}`);
+        }
+    } catch (error) {
+        console.error("Error converting AI to WEBP:", error.message);
+        throw error;
+    }
+}
+
+/* package sticker */
+export async function writeExif(media, metadata = {}, gif = false) {
+    let vMedia
+    if (/webp/.test(media.mime)) {
+        console.log(`[WRITE EXIF] WEBP DETECTED`)
+        vMedia = media.data
+    } else if (/image/.test(media.mime)) {
+        console.log(`[WRITE EXIF] IMAGE DETECTED`)
+      //  vMedia = await imageToWebp(media)
+      vMedia = media.data
+    } else if (/video/.test(media.mime)) {
+        console.log(`[WRITE EXIF] VIDEO DETECTED`)
+        // vMedia = await videoToWebp(media)
+    }
+
+    const tmpFile = path.join(
+        process.cwd(), "temp",
+        `trash-${rand(6)}.webp`)
+    gif
+        ? fs.writeFileSync(tmpFile, media.data)
+        : fs.writeFileSync(tmpFile, vMedia)
+
+    const json = {
+        "sticker-pack-id": "https://github.com/amiruldev20",
+        "sticker-pack-name": metadata?.wm || "MyWA BOT",
+        emojis: metadata?.emot || ["😋", "😎"]
+    }
+
+    const exifAttr = Buffer.from([
+        0x49, 0x49, 0x2a, 0x00, 0x08, 0x00, 0x00, 0x00, 0x01, 0x00, 0x41, 0x57,
+        0x07, 0x00, 0x00, 0x00, 0x00, 0x00, 0x16, 0x00, 0x00, 0x00
+    ])
+    const jsonBuff = Buffer.from(JSON.stringify(json), "utf-8")
+    const exif = Buffer.concat([exifAttr, jsonBuff])
+    exif.writeUIntLE(jsonBuff.length, 14, 4)
+
+    const exifFile = path.join(
+        process.cwd(),
+        "temp", `exif-${rand(6)}.exif`)
+    fs.writeFileSync(exifFile, exif)
+
+    const outputExifFile = path.join(
+        process.cwd(),
+        "temp", `output-${rand(6)}.webp`)
+
+    try {
+        await new Promise((resolve, reject) => {
+            exec(
+                `webpmux -set exif ${exifFile} ${tmpFile} -o ${outputExifFile}`,
+                (error) => {
+                    if (error) {
+                        reject(error)
+                    } else {
+                        resolve(true)
+                    }
+                }
+            )
+        })
+
+        const buff = fs.readFileSync(outputExifFile)
+        await fs.promises.unlink(tmpFile)
+        await fs.promises.unlink(exifFile)
+        await fs.promises.unlink(outputExifFile)
+
+        return buff
+    } catch (e) {
+        fs.existsSync(tmpFile) && (await fs.promises.unlink(tmpFile))
+        fs.existsSync(exifFile) && (await fs.promises.unlink(exifFile))
+        fs.existsSync(outputExifFile) &&
+            (await fs.promises.unlink(outputExifFile))
+        throw e
+    }
 }

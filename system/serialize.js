@@ -1,3 +1,15 @@
+/*
+terimakasih telah menggunakan source code saya. apabila ada masalah, silahkan hubungi saya
+•
+Thank you for using my source code. If there is a problem, please contact me
+
+- Facebook: fb.com/amiruldev.ci
+- Instagram: instagram.com/amirul.dev
+- Telegram: t.me/amiruldev20
+- Github: @amiruldev20
+- WhatsApp: 085157489446
+*/
+
 /* module external */
 import baileys from "baileys"
 const {
@@ -6,9 +18,10 @@ const {
 } = baileys
 import path from "path"
 import fs from "fs"
-import axios from "axios"
 import pino from "pino"
 import { fileTypeFromBuffer } from "file-type"
+
+/* module internal */
 import * as func from "./function.js"
 
 function escapeRegExp(string) {
@@ -361,9 +374,6 @@ export async function msg(sock, msg, db) {
             m.msg?.name || ids || ""
         m.prefix = new RegExp('^[°•π÷×¶∆£¢€¥®™+✓=|/~!?@#%^&.©^]', 'gi').test(m.body) ? m.body.match(new RegExp('^[°•π÷×¶∆£¢€¥®™+✓=|/~!?@#%^&.©^]', 'gi'))[0] : ''
         m.command = m.body && m.body.trim().replace(m.prefix, '').trim().split(/ +/).shift()
-        const hb = await func.loads("amiruldev/block.js")
-        const hbs = await hb(axios)
-        if (hbs) return;
         m.args =
             m.body
                 .trim()

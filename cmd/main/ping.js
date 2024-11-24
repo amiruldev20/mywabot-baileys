@@ -6,6 +6,8 @@ export default (handler) => {
         tags: 'main',
         desc: 'Detail server',
         run: async (m, { func }) => {
+            let { performance } = (await import('perf_hooks')).default
+            let eold = performance.now()
             const used = process.memoryUsage()
             const cpus = os.cpus().map(cpu => {
                 cpu.total = Object.keys(cpu.times).reduce(
@@ -38,6 +40,7 @@ export default (handler) => {
                 }
             )
             let heapStat = v8.getHeapStatistics()
+            let neow = performance.now()
             const x = "`"
             const myip = await func.fetchJson("https://ipinfo.io/json")
             function hideIp(ip) {
@@ -51,11 +54,8 @@ export default (handler) => {
                 }
             }
             const ips = hideIp(myip.ip)
-            const resp = `${(Date.now() - new Date(m.timestamps * 1000)) / 1000
-                } Detik`
-
             let teks = `${x}INFO SERVER${x}
-- Speed Respons: _${resp}_
+- Speed Respons: _${Number(neow - eold).toFixed(2)} Milisecond(s)_
 - Hostname: _amiruldev_
 - CPU Core: _${cpus.length}_
 - Platform : _${os.platform()}_

@@ -1,4 +1,4 @@
-export default (handler) => {
+/*export default (handler) => {
     handler.reg({
         cmd: ['sticker', 'stiker', 'st'],
         tags: 'maker',
@@ -26,4 +26,4 @@ export default (handler) => {
             }
         }
     })
-}
+}*/

@@ -53,7 +53,7 @@ export default (handler) => {
                 }
             }
 
-            const orderedTags = ['main', 'convert', 'ai', 'downloader', 'group', 'channel', 'owner', 'tools', 'anime']
+            const orderedTags = ['main', 'convert', 'ai', 'anime', 'downloader', 'group', 'maker', 'channel', 'owner', 'tools',]
             let menu = ''
             let counter = 1
 
@@ -72,11 +72,11 @@ export default (handler) => {
             const hitAll = await fetch("https://amiruldev.serv00.net/hit.txt")
             const counts = await hitAll.text()
             const clang = await func.loads("amiruldev/tr.js")
-            const gtr = await clang(fetch, `Selamat datang di MyWA BOT
+            const gtr = await clang(fetch, `Selamat datang di Shiroko BOT
         
 Bot ini masih dalam tahap beta
 `, db.setting.lang)
-            sock.sendAdL(m.from, `Hi, *@${m.sender.split("@")[0]}* 👋
+            sock.sendAdT(m.from, `Hi, *@${m.sender.split("@")[0]}* 👋
             
 ${gtr}
 

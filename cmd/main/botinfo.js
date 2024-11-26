@@ -1,12 +1,13 @@
 export default (handler) => {
     handler.reg({
-        cmd: ['info', 'botinfo'],
+        cmd: ['infobot', 'botinfo'],
         tags: 'main',
         desc: 'Detail informasi bot',
         run: async (m, { db }) => {
-            m.reply(`*Bot Information*
+            const jid = `${db.setting.owner}@s.whatsapp.net`
+            m.reply({ text: `*Bot Information*
 
-𖥔 Owner: @${db.setting.owner}
+𖥔 Owner: @${jid.split('@')[0]}
 𖥔 Firstchat: ${db.setting.firstchat ? '*Active* ✅' : '*Non Active* ❌'}
 𖥔 Read Story WhatsApp: ${db.setting.readstory ? '*Active* ✅' : '*Non Active* ❌'}
 𖥔 Reaction Story: ${db.setting.reactstory ? '*Active* ✅' : '*Non Active* ❌'}
@@ -19,7 +20,7 @@ export default (handler) => {
 𖦏 Logo: 
 > ${db.setting.logo}
 𖦏 Packname Sticker: 
-> ${db.setting.packname}`, { mentions: [db.setting.owner + '@s.whatsapp.net'] })
+> ${db.setting.packname}`, mentions: [jid] })
         }
     })
 }

@@ -1,6 +1,6 @@
 export default (handler) => {
     handler.reg({
-        cmd: ['tagall', 't'],
+        cmd: ['tagall', 'tgall'],
         tags: 'group',
         desc: 'Tag all member in group',
         isAdmin: true,

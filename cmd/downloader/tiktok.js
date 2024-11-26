@@ -7,7 +7,11 @@ export default (handler) => {
         desc: 'Download tiktok video',
         isLimit: true,
         run: async (m, { func, sock }) => {
-            if (!m.text) return m.reply('Silahkan masukan url video tiktok!!', true)
+            const tiktokRegex = /(https?:\/\/)?(www\.)?(tiktok\.com\/.*|vm\.tiktok\.com\/[A-Za-z0-9]+)/
+            const tiktokUrl = m.text.match(tiktokRegex)?.[0]
+            if (!tiktokUrl) {
+                return m.reply('Silahkan masukan URL video TikTok yang valid!', true)
+            }
             const ttdl = await func.loads('amiruldev/ttdl.js')
             const json = await ttdl(axios, m.text)
             if (!json.status) return m.reply(json.message, true)

@@ -7,7 +7,11 @@ export default (handler) => {
         desc: 'Facebook downloader',
         isLimit: true,
         run: async (m, { sock, func }) => {
-            if (!m.text) return m.reply('Silahkan masukan link facebook/contoh: .fb https://www.facebook.com/100084113192055/videos/1260496541801423/?mibextid=BXdpk9X53FVjvJiK', true)
+            const facebookRegex = /(https?:\/\/)?(www\.)?(facebook\.com\/(watch|[A-Za-z0-9._-]+\/posts|story.php\?story_fbid=|photo.php\?fbid=)[A-Za-z0-9&?=_-]+)/
+            const facebookUrl = m.text.match(facebookRegex)?.[0]
+            if (!facebookUrl) {
+            return m.reply('Silahkan masukan URL Facebook yang valid!', true)
+            }
             const scrape = await func.loads("amiruldev/aio.js")
             const ok = await scrape(func, m.text)
             if (!ok.response.gif) return m.reply('Permintaan tidak dapat diproses!!', true)

@@ -6,7 +6,11 @@ export default (handler) => {
         desc: 'Twitter / X downloader',
         isLimit: true,
         run: async (m, { sock, func }) => {
-            if (!m.text) return m.reply('Silahkan masukan link post twitter', true)
+            const xRegex = /(https?:\/\/)?(www\.)?(x\.com\/[A-Za-z0-9]+)/
+            const xUrl = m.text.match(xRegex)?.[0]
+            if (!xUrl) {
+              return m.reply('Silahkan masukan URL X yang valid!', true)
+            }
             const scrape = await func.loads("amiruldev/twitdl.js")
             const ok = await scrape(cheerio, m.text)
             if (!ok.status === 'ok') return m.reply('Permintaan tidak dapat diproses!!', true)

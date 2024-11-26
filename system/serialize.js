@@ -152,6 +152,41 @@ export function Client(db, ...args) {
             }
         )
     }
+    
+     /* adreply thumbnail */
+    sock.sendAdT = async (jid, capt, quoted, opt = {}) => {
+        const buff = await func.fetchBuffer(db.setting.logo)
+        return sock.sendMessage(
+            jid,
+            {
+                text: capt || `${sock.user.name} Here`,
+                contextInfo: {
+                    forwardingScore: 1,
+                    isForwarded: true,
+                    mentionedJid: sock.parseMention(capt),
+                    forwardedNewsletterMessageInfo: {
+                        newsletterJid: opt?.idch || db.setting.ch_id,
+                        serverMessageId: 100,
+                        newsletterName: opt?.nch || db.setting.ch_name
+                    },
+                    externalAdReply: {
+                        title: opt?.title || sock.user.name,
+                        body: opt?.body || db.setting.dev,
+                        mediaType: 1,
+                        renderLargerThumbnail: true,
+                        thumbnail: buff,
+                        mediaUrl: opt?.mediaUrl || "https://chat.whatsapp.com",
+                        sourceUrl: opt?.sourceUrl || db.setting.url_web
+                    }
+                }
+            },
+            {
+                quoted: quoted || null,
+                ephemeralExpiration: quoted ? quoted.expiration : undefined,
+                messageId: rand(32)
+            }
+        )
+    }
 
     /* send button */
     sock.sendBtn = (jid, capt, foot, quoted, btn) => {

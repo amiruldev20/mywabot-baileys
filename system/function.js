@@ -609,6 +609,18 @@ export async function getFile(PATH, save) {
     }
 }
 
+/* profile picture size*/
+export async function generateProfilePicture(buffer) {
+	const jimp = await Jimp.read(buffer)
+	const min = jimp.getWidth()
+	const max = jimp.getHeight()
+	const cropped = jimp.crop(0, 0, min, max)
+	return {
+		img: await cropped.scaleToFit(720, 720).getBufferAsync(Jimp.MIME_JPEG),
+		preview: await cropped.scaleToFit(720, 720).getBufferAsync(Jimp.MIME_JPEG)
+	}
+}
+
 /* fetch json */
 export async function fetchJson(url, options = {}) {
     let { data } = await axios(url, {

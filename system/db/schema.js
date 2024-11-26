@@ -88,11 +88,12 @@ const schema = async (m, sock, db) => {
         if (!("resAi" in setting)) setting.resAi = []
         if (!("number" in setting)) setting.number = ""
         if (!("owner" in setting)) setting.owner = db.setting.owner
-        if (!("ch_id" in setting)) setting.ch_id = "120363181344949815@newsletter"
-        if (!("ch_name" in setting)) setting.ch_name = "🔥 LightWeight WhatsApp Bot"
-        if (!("logo" in setting)) setting.logo = "https://i.ibb.co/C9w0YjT/Ephoto360-com-166a8b5e1ccfdc.jpg"
-        if (!("dev" in setting)) setting.dev = "Made by Amirul Dev"
-        if (!("packname" in setting)) setting.packname = "IG @amirul.dev"
+        if (!("ch_id" in setting)) setting.ch_id = "120363201749314577@newsletter"
+        if (!("ch_name" in setting)) setting.ch_name = "🔥 Shiroko WhatsApp Bot"
+        if (!("logo" in setting)) setting.logo = "https://i.ibb.co.com/Tw5j60t/IMG-20241119-WA0245.jpg"
+        if (!("url_web" in setting)) setting.url_web = "https://www.instagram.com/guaabuzz"
+        if (!("dev" in setting)) setting.dev = "Made by Shiroko"
+        if (!("packname" in setting)) setting.packname = "IG @guaabuzz"
         if (!("ignoreJid" in setting)) setting.ignoreJid = []
         if (!("lang" in setting)) setting.lang = "id"
         if (!("api" in setting)) setting.api = {}
@@ -113,11 +114,12 @@ const schema = async (m, sock, db) => {
             resAi: [],
             number: "",
             owner: db.setting.owner,
-            ch_id: "120363181344949815@newsletter",
-            ch_name: "🔥 LightWeight WhatsApp Bot",
-            logo: "https://i.ibb.co/C9w0YjT/Ephoto360-com-166a8b5e1ccfdc.jpg",
-            dev: "Made by Amirul Dev",
-            packname: "IG @amirul.dev",
+            ch_id: "120363201749314577@newsletter",
+            url_web: "https://www.instagram.com/guaabuzz",
+            ch_name: "🔥 Shiroko WhatsApp Bot",
+            logo: "https://i.ibb.co.com/Tw5j60t/IMG-20241119-WA0245.jpg",
+            dev: "Made by Shiroko-Js",
+            packname: "IG @guaabuzz",
             ignoreJid: [],
             lang: "id",
             api: {},

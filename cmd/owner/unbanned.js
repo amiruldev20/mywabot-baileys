@@ -2,7 +2,7 @@ export default (handler) => {
     handler.reg({
         cmd: ['unban', 'unbanned'],
         tags: 'owner',
-        desc: 'Unban a user',
+        desc: 'Unban user',
         isOwner: true,
         run: async (m, { db, sock }) => {
             const input = m.text ? m.text : m.quoted ? m.quoted.sender : m.mentions.length > 0 ? m.mentions[0] : false
@@ -15,8 +15,10 @@ export default (handler) => {
                 return m.reply('⚠️ Users tersebut tidak ditemukan terdaftar dalam database.', true)
             }
             set.banned = false
-            m.reply(`✅ Pengguna ${input} telah di-unbanned.`, true)
-            },
+            m.reply({
+                text: `✅ Pengguna @${jid.split('@')[0]} telah di-unbanned.`,
+                mentions: [jid],
+            })
         },
-    )
+    })
 }

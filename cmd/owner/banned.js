@@ -2,7 +2,7 @@ export default (handler) => {
     handler.reg({
         cmd: ['ban', 'banned'],
         tags: 'owner',
-        desc: 'Ban multiple users',
+        desc: 'Ban users',
         isOwner: true,
         run: async (m, { db, sock }) => {
             const input = m.text ? m.text : m.quoted ? m.quoted.sender : m.mentions.length > 0 ? m.mentions[0] : false
@@ -15,8 +15,10 @@ export default (handler) => {
                 return m.reply('⚠️ Users tersebut tidak ditemukan terdaftar dalam database.', true)
             }
             set.banned = true
-            m.reply(`✅ Pengguna ${input} telah di-banned.`, true)
-            },
+            m.reply({
+                text: `✅ Pengguna @${jid.split('@')[0]} telah di-banned.`,
+                mentions: [jid],
+            })
         },
-    )
+    })
 }

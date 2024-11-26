@@ -6,7 +6,7 @@ export default (handler) => {
         isOwner: true,
         run: async (m, { sock }) => {
             if (!m.text) {
-                return m.reply('Silahkan berikan nama bot anda\ncontoh: .setnamabot MyWaBot', true)
+                return m.reply('Silahkan berikan nama bot anda\ncontoh: .setnamabot Shiroko', true)
             }
             sock.updateProfileName(m.text)
             m.reply(`Nama bot berhasil berganti menjadi, @${m.text}`)

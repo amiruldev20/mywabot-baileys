@@ -8,17 +8,25 @@ export default (handler) => {
             try {
                 const bannedUsers = Object.entries(db.users || {})
                     .filter(([_, data]) => data.banned)
-                    .map(([jid, data], i) => `${i + 1}. ${data.name || 'Tanpa Nama'} (${jid})`)
 
-                    if (bannedUsers.length === 0) {
-                        return m.reply('Tidak ada pengguna yang di-banned.', true)
-                    }
-
-                    m.reply(`Daftar Pengguna yang Di-banned:\n\n${bannedUsers.join('\n')}`)
-                } catch (error) {
-                    m.reply(`❌ Terjadi kesalahan: ${error.message}`)
+                if (bannedUsers.length === 0) {
+                    return m.reply('Tidak ada pengguna yang di-banned.', true)
                 }
-            },
+
+                let teks = `𖦏 *DAFTAR PENGGUNA YANG DI-BANNED*\n\n`
+                let mentions = []
+
+                bannedUsers.forEach(([jid, data], i) => {
+                    const name = data.name || 'Tanpa Nama'
+                    const tag = '@' + jid.split('@')[0]
+                    teks += `${i + 1}. ${name} (${tag})\n`
+                    mentions.push(jid)
+                })
+
+                m.reply(teks, null, { mentions })
+            } catch (error) {
+                m.reply(`❌ Terjadi kesalahan: ${error.message}`)
+            }
         },
-    )
+    })
 }

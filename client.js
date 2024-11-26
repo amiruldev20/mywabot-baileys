@@ -1,9 +1,13 @@
 /*
-terimakasih telah menggunakan source code saya. apabila ada masalah, silahkan hubungi saya:
+terimakasih telah menggunakan source code saya. apabila ada masalah, silahkan hubungi saya
+•
+Thank you for using my source code. If there is a problem, please contact me
+
 - Facebook: fb.com/amiruldev.ci
 - Instagram: instagram.com/amirul.dev
 - Telegram: t.me/amiruldev20
 - Github: @amiruldev20
+- WhatsApp: 085157489446
 */
 
 /* module external */
@@ -60,7 +64,6 @@ if (!db || Object.keys(db).length === 0) {
 }
 let phone = db?.setting?.number
 const handler = new CommandHandler()
-
 const loadFile = async (filePath) => {
     try {
         const resolvedPath = path.resolve(filePath)
@@ -135,16 +138,16 @@ function watchDirectory(dirPath) {
                 const isSupportedFile = ['.js', '.cjs', '.mjs'].some(ext => filename.endsWith(ext))
 
                 if (stats.isFile() && isSupportedFile) {
-                    console.log(`[INFO] File changed or added: ${filename}`)
+                    console.log(color.cyan(`[INFO] File updated: ${filename}`))
                     await loadFile(filePath)
                 } else if (stats.isDirectory()) {
-                    console.log(`[INFO] Directory added: ${filename}`)
+                    console.log(color.green(`[INFO] Directory added: ${filename}`))
                     await processDirectory(filePath)
                     watchDirectory(filePath)
                 }
             } catch (err) {
                 if (err.code === 'ENOENT') {
-                    console.log(`[INFO] File or directory removed: ${filename}`)
+                    console.log(color.red(`[INFO] File or directory removed: ${filename}`))
                     handler.clear()
                     await loadCommands(cmdDir)
                 } else {
@@ -351,6 +354,7 @@ async function connectWA() {
         for (const update of updates) {
             const id = update.id
             if (db.groupMetadata[id]) {
+                console.log(color.green('[+] Group Metadata Updated!!'))
                 db.groupMetadata[id] = {
                     ...(db.groupMetadata[id] || {}),
                     ...(update || {})
@@ -377,6 +381,7 @@ async function connectWA() {
                     for (const participant of metadata.participants) {
                         const id = baileys.jidNormalizedUser(participant.id)
                         if (participants.includes(id)) {
+                            console.log(`${color.green(`[ ${action} ]`)} ${id.split("@")[0]} in group ${color.cyan(metadata.subject)}`)
                             participant.admin =
                                 action === "promote" ? "admin" : null
                         }
@@ -394,7 +399,7 @@ async function connectWA() {
     // interval save db
     setInterval(async () => {
         await mydb.write(db)
-    }, 30000)
+    }, 3000)
 }
 
 connectWA()

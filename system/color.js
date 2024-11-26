@@ -1,3 +1,15 @@
+/*
+terimakasih telah menggunakan source code saya. apabila ada masalah, silahkan hubungi saya
+•
+Thank you for using my source code. If there is a problem, please contact me
+
+- Facebook: fb.com/amiruldev.ci
+- Instagram: instagram.com/amirul.dev
+- Telegram: t.me/amiruldev20
+- Github: @amiruldev20
+- WhatsApp: 085157489446
+*/
+
 const styles = {
     modifier: {
         reset: [0, 0],

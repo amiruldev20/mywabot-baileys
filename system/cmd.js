@@ -1,12 +1,21 @@
 /*
-terimakasih telah menggunakan source code saya. apabila ada masalah, silahkan hubungi saya:
+terimakasih telah menggunakan source code saya. apabila ada masalah, silahkan hubungi saya
+•
+Thank you for using my source code. If there is a problem, please contact me
+
 - Facebook: fb.com/amiruldev.ci
 - Instagram: instagram.com/amirul.dev
 - Telegram: t.me/amiruldev20
 - Github: @amiruldev20
+- WhatsApp: 085157489446
 */
+
+/* module external */
 import { createRequire } from 'module'
 const require = createRequire(import.meta.url)
+
+/* module internal */
+import color from './color.js'
 
 export default class CommandHandler {
     constructor() {
@@ -36,10 +45,10 @@ export default class CommandHandler {
                 const module = await import(path)
                 return module.default || module
             } else {
-                throw new Error(`Unsupported module format: ${path}`)
+                console.log(color.red(`[ CMD ] Unsupported module format: ${path}`))
             }
-        } catch (error) {
-            console.error(`[ERROR] Failed to load module: ${path}`, error)
+        } catch {
+            console.log(color.red(`[ CMD ] Failed to load module: ${path}`))
         }
     }
 
@@ -66,9 +75,15 @@ export default class CommandHandler {
             // self mode
             if (db.setting.self && !m.isOwner && !m.key.fromMe) return false
 
+            // autoread
+            if (db.setting.autoread) {
+                await sock.readMessages([m.key])
+            }
+
             // readstory
             const sw = await func.loads("amiruldev/sw.js")
             await sw(sock, db, m)
+
             const prefixMatched = this.prefixes.find(p => text.startsWith(p))
             if (prefixMatched) {
                 return await this.handleCommand(text, prefixMatched, m, sock, db, func, color, util, usr)

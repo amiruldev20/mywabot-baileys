@@ -3,8 +3,10 @@
 node_modules
 temp
 temp/*
+.idx
 
 # files 
+tes.js
 mywadb.json
 up.sh
 load.sh

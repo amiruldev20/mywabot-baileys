@@ -56,7 +56,7 @@ export default (handler) => {
             const ips = hideIp(myip.ip)
             let teks = `${x}INFO SERVER${x}
 - Speed Respons: _${Number(neow - eold).toFixed(2)} Milisecond(s)_
-- Hostname: _amiruldev_
+- Hostname: _GuaAbuzz_
 - CPU Core: _${cpus.length}_
 - Platform : _${os.platform()}_
 - OS : _${os.version()} / ${os.release()}_

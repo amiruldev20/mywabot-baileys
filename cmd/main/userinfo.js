@@ -1,5 +1,4 @@
 import moment from "moment-timezone"
-import { getPremiumExpired } from "../../system/db/premium.js"
 
 export default (handler) => {
     handler.reg({

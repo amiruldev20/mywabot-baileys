@@ -20,13 +20,13 @@ export default (handler) => {
                 })
 
                 await sock.sendMessage(ownerNumber + '@s.whatsapp.net', {
-                    text: `⚠️ Bot akan keluar dari grup *${groupName}*\n(${groupId}).`
+                    text: `⚠️ Bot telah keluar dari grup *${groupName}*\n(${groupId}).`
                 })
 
                 await sock.groupLeave(groupId)
                 m.reply(`✅ Bot telah keluar dari grup *${groupName}*.`)
             } catch (error) {
-                m.reply(`❌ Terjadi kesalahan: ${error.message}`)
+                return error
             }
         },
     })

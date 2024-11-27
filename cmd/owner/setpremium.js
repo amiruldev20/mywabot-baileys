@@ -18,10 +18,8 @@ export default (handler) => {
                     true
                 )
             }
-
             const validDurations = [1, 3, 7, 14, 30]
             let premiumDuration
-
             if (days?.toLowerCase() === 'unlimited') {
                 premiumDuration = 'PERMANENT'
             } else {
@@ -31,31 +29,24 @@ export default (handler) => {
                 }
                 premiumDuration = duration * 24 * 60 * 60 * 1000
             }
-
             const p = await sock.onWhatsApp(input.trim())
             if (p.length === 0) {
                 return m.reply('⚠️ Nomor tidak terdaftar di WhatsApp.', true)
             }
-
             const jid = sock.decodeJid(p[0].jid)
             const user = db.users[jid]
-
             if (!user) {
                 return m.reply('⚠️ Pengguna tidak ditemukan dalam database.', true)
             }
-
-            // Tambahkan pengguna sebagai premium dan reset limit jika kedaluwarsa
             try {
                 const isExpired = !checkPremiumUser(jid, db)
                 addPremiumUser(jid, premiumDuration, db, isExpired)
             } catch (error) {
                 return m.reply(`⚠️ Terjadi kesalahan: ${error.message}`)
             }
-
             const expiryDate = premiumDuration === 'PERMANENT'
                 ? 'Tanpa Batas Waktu'
                 : moment(Date.now() + premiumDuration).tz('Asia/Jakarta').format('HH:mm:ss [WIB], DD MMMM')
-
             const premiumMessage = premiumDuration === 'PERMANENT'
                 ? {
                     text: `✅ Pengguna @${jid.split('@')[0]} telah menjadi pengguna premium *tanpa batas waktu*.\nLimit premium: ${isExpired ? 10 : 100}.`,
@@ -67,7 +58,8 @@ export default (handler) => {
                 }
 
             m.reply(premiumMessage)
-
+            
+            // Simpan perubahan ke database
             if (db && db.write) {
                 await db.write()
             }

@@ -12,7 +12,6 @@ export default (handler) => {
                 if (bannedUsers.length === 0) {
                     return m.reply('Tidak ada pengguna yang di-banned.', true)
                 }
-
                 let teks = `𖦏 *DAFTAR PENGGUNA YANG DI-BANNED*\n\n`
                 let mentions = []
 
@@ -25,7 +24,7 @@ export default (handler) => {
 
                 m.reply(teks, null, { mentions })
             } catch (error) {
-                m.reply(`❌ Terjadi kesalahan: ${error.message}`)
+                return error
             }
         },
     })

@@ -15,7 +15,6 @@ export default (handler) => {
             if (!set) {
                 return m.reply('⚠️ Pengguna tersebut tidak ditemukan dalam database.', true)
             }
-
             set.limit = parseInt(limit)
             m.reply({
                 text: `✅ Pengguna @${jid.split('@')[0]} telah diberi limit sebesar ${limit}.`,

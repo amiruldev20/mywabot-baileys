@@ -6,7 +6,6 @@ export default (handler) => {
         isOwner: true,
         run: async (m, { db }) => {
             const set = db.setting
-
             switch (m.text) {
                 case '1':
                     m.reply('_First chat berhasil diaktifkan!!_', true)

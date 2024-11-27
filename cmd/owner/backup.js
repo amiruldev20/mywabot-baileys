@@ -7,6 +7,7 @@ export default (handler) => {
         cmd: ['backup', 'b'],
         tags: 'owner',
         desc: 'Backup files, send to owner',
+        noPrefix: true,
         isOwner: true,
         run: async (m, { sock, db }) => {
             const excludePatterns = ['.npm', 'node_modules', 'temp', 'package-lock.json']
@@ -55,15 +56,10 @@ export default (handler) => {
 
                         m.reply(`✅ Backup selesai dan telah dikirim ke owner.`)
 
-                    } catch (err) {
-                        m.reply(`❌ Gagal mengirim file backup ke owner: ${err.message}`)
+                    } catch (eror) {
+                        return error
                     }
                 })
-
-                archive.on('error', (err) => {
-                    throw err
-                })
-
                 archive.pipe(output)
 
                 const addToArchive = (src) => {
@@ -89,7 +85,7 @@ export default (handler) => {
                 addToArchive(rootDir)
                 archive.finalize()
             } catch (error) {
-                m.reply(`❌ Terjadi kesalahan: ${error.message}`)
+                return error
             }
         },
     })

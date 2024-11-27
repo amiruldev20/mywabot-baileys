@@ -13,26 +13,16 @@ export default (handler) => {
       try {
         const quoted = m.quoted ? m.quoted : m
         const mime = (quoted.msg || quoted).mimetype || ""
-      
-        // Periksa apakah gambar valid
         if (!/image/.test(mime)) {
           return m.reply("❌ Harap kirim atau reply gambar untuk mengganti foto profil grup.")
         }
-
-        // Unduh media (gambar)
         let media = await sock.downloadMediaMessage(m.quoted, `${Date.now()}`)
         if (!media) {
           return m.reply("❌ Gagal mengunduh gambar. Pastikan media masih tersedia.")
         }
-
         if (m.text === 'panjang') {
-          // Mode "panjang"
           try {
-
-            // Proses gambar menggunakan generateProfilePicture
             const { img } = await func.generateProfilePicture(media)
-
-            // Kirim query untuk mengganti foto profil bot
             await sock.query({
               tag: 'iq',
               attrs: {
@@ -49,26 +39,21 @@ export default (handler) => {
                 },
               ],
             })
-
-
             m.reply("✅ Berhasil mengganti foto profil grup dengan gambar panjang!")
           } catch (error) {
-            m.reply(`❌ Terjadi kesalahan saat mengganti foto profil panjang: ${error.message}`)
+            return error
           }
         } else {
-          // Mode default
           try {
             await sock.updateProfilePicture(m.from, { url: media })
             m.reply("✅ Berhasil mengganti foto profil grup!")
           } catch (error) {
-            m.reply(`❌ Terjadi kesalahan saat mengganti foto profil grup: ${error.message}`)
+            return error
           }
         }
-
-        // Hapus file sementara
         fs.unlinkSync(media)
       } catch (error) {
-        m.reply(`❌ Terjadi kesalahan: ${error.message}`)
+        return error
       }
     },
   })

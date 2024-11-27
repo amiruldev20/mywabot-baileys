@@ -7,7 +7,11 @@ module.exports = (handler) => {
         desc: 'Instagram downloader (support reel/story)',
         isLimit: true,
         run: async (m, { sock, func }) => {
-            if (!m.text) return m.reply('Silahkan masukan link instagram (support reel/story)', true)
+            const instagramRegex = /(https?:\/\/)?(www\.)?(instagram\.com\/(p|reel|tv|stories)\/[A-Za-z0-9_-]+\/?)/
+            const instagramUrl = m.text.match(instagramRegex)?.[0]
+            if (!instagramUrl) {
+                return m.reply('Silahkan masukan URL Instagram yang valid!', true)
+            }
             const scrape = await func.loads("amiruldev/igdl.js")
             const ok = await scrape(func, m.text)
 

@@ -1,6 +1,6 @@
 export default (handler) => {
     handler.reg({
-        cmd: ['delete', 'del'],
+        cmd: ['delete', 'del', 'd'],
         tags: 'main',
         desc: 'Delete message',
         run: async (m) => {

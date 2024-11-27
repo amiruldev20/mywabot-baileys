@@ -1,6 +1,6 @@
 export default (handler) => {
     handler.reg({
-        cmd: ['hidetag', 'h'],
+        cmd: ['hidetag', 'ht'],
         tags: 'group',
         desc: 'Hide tag in group',
         isGroup: true,

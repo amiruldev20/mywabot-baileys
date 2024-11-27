@@ -1,6 +1,6 @@
 export default (handler) => {
     handler.reg({
-        cmd: ['promote', 'addadmin'],
+        cmd: ['promote', 'pm', 'addadmin'],
         tags: 'group',
         desc: 'Add group admin',
         isAdmin: true,

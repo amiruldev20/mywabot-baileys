@@ -1,6 +1,6 @@
 export default (handler) => {
     handler.reg({
-        cmd: ['demote', 'deladmin'],
+        cmd: ['demote', 'dm', 'deladmin'],
         tags: 'group',
         desc: 'Remove group admin',
         isGroup: true,
